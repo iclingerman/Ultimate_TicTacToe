@@ -9,6 +9,7 @@ class Cell{
     this.x = x;
     this.y = y;
     this.size = size;
+    this.state = 0; 
     this.isActive = true;
   }
   void setIsActive(boolean isActive){
@@ -22,6 +23,9 @@ class Cell{
   }   
   void clear(){
     this.state = 0;
+  }
+  String toString(){
+    return "Cell[x: " + this.x + ", y: " + this.y + ", Size: " + this.size + ", State: " + this.state + ", isActive: " + this.isActive + "]";
   }
   void drawCell(){
     pushMatrix();

@@ -6,8 +6,8 @@ Cell[][] main;
 Cell[][][][] subBoards;
 
 void setup(){
-  //fullScreen();
-  size(750, 750);
+  fullScreen();
+  //size(750, 750);
   background(110, 158, 203);
   strokeWeight(5);
   BOARD_SIZE = int(displayHeight*7/9);
@@ -39,7 +39,8 @@ void setup(){
           if(l == 0) cx = int(BOARD_SIZE*1/10);
           else if(l == 1) cx = int(BOARD_SIZE*3.9/10);
           else cx = int(BOARD_SIZE*6.8/10);
-          subBoards[i][j][k][l] = new Cell(100*i, 0,int(BOARD_SIZE/10.5));
+          subBoards[i][j][k][l] = new Cell(cx, cy,int(BOARD_SIZE/10.5));
+          println(subBoards[i][j][k][l]);
         }
       }
     }
@@ -50,6 +51,7 @@ void setup(){
 void draw(){
   clear();
   background(110, 158, 203);
+  drawInfo();
   drawBoard(); 
   checkGame();
   if(victory > 0){
@@ -73,16 +75,21 @@ void drawBoard(){
   } 
   pushMatrix();
   for(int i = 0; i < 3; i++){
+    translate(0, 0);
     if(i == 0) translate(0, int(BOARD_SIZE*2/10));
     else if(i == 1) translate(0, int(BOARD_SIZE*4.9/10));
-    else translate(0, int(BOARD_SIZE*7.8/10));    
+    else translate(0, int(BOARD_SIZE*7.8/10)); 
+    translate(0, 0);
+    
     for(int j = 0; j < 3; j++){
+      translate(0, 0);
       if(j == 0) translate(int(BOARD_SIZE*1/10), 0);
       else if(j == 1) translate(int(BOARD_SIZE*3.9/10), 0);
       else translate(int(BOARD_SIZE*6.8/10), 0);      
       for(int k = 0; k < 3;  k++){
         for(int l = 0; l < 3; l++){
           subBoards[i][j][k][l].drawCell();
+          
         }
       }
     }
@@ -137,3 +144,13 @@ void clearBoard(){
     }
   } 
 }  
+
+void drawInfo() {
+  textAlign(LEFT);
+  fill(255);
+  textSize(12);
+  text("x: " + mouseX + ", y: " + mouseY, 10, 20);
+  text("FPS: " +(int)frameRate, 10, 40);
+  text("FC: " +frameCount, 10, 60);
+  textAlign(CENTER, CENTER);
+}
