@@ -36,8 +36,8 @@ void setup(){
         else cy = int(BOARD_SIZE*7.8/10);
         for(int l = 0; l < 3; l++){
           if(l == 0) cx = int(BOARD_SIZE*1/10);
-          else if(l == 1) cx = int(BOARD_SIZE*5.9/10);
-          else cx = int(BOARD_SIZE*6.8/10);
+          else if(l == 1) cx = int(BOARD_SIZE*3.9/10);
+          else cx = int(BOARD_SIZE*6.8/10); 
           subBoards[i][j][k][l] = new Cell(cx, cy,int(BOARD_SIZE/10.5));
         }
       }
@@ -75,13 +75,11 @@ void drawBoard(){
     else if(i == 1) translate(0, int((BOARD_SIZE)*.95/10));
     else translate(0, int((BOARD_SIZE*3.5/10)*2.7/10)); 
     for(int j = 0; j < 3; j++){
+      translate(0,0);
       if(j == 0) translate(0, 0);
-      else if(j == 1) translate(int(BOARD_SIZE*.95/10), 0);
+      else if(j == 1) translate(int(BOARD_SIZE*2/10), 0);
       else translate(int((BOARD_SIZE*3.5/10)*2.7/10), 0);      
       for(int k = 0; k < 3;  k++){
-        //if(k == 0) translate(0, 0);
-        //else if(k == 1) translate(int(BOARD_SIZE*.95/10), 0);
-        //else translate(int(BOARD_SIZE*0/10), 0);      
         for(int l = 0; l < 3; l++){
           subBoards[i][j][k][l].drawCell();
         }
