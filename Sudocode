@@ -1,0 +1,12 @@
+Cell Class 
+  Private variables: 
+    x position
+    y position
+    size
+    state = either blank (default),or X, or O printed in cell
+   
+   
+BoardCell Class
+  private variables
+    mainCell = the cell of the main board
+    cell[][] subCells = the smaller board present inside of the main board
