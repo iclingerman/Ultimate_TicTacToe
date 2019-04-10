@@ -29,6 +29,9 @@ class Cell {
   }
   void drawCell(){
     pushMatrix();
+    if(this.isActive){
+      fill(211);
+    }
     rect(this.x, this.y, this.size, this.size);
     if(this.state == 1){
       ellipseMode(CORNER);

@@ -1,26 +1,29 @@
 BoardCell[][] board;
+int player;
 
 void setup() {
   strokeWeight(10);
+  ellipseMode(CORNER);
   fullScreen();
+  board = new BoardCell[3][3];
+  player = 0;
   int boardSize = int(height*7/9);
   //int cellSize = int(boardSize/3);
   int x = width/9;
   int y = height/9;
-  board = new BoardCell[3][3];
   for (int i = 0; i < 3; i++) {
-      int cx = 0;
-      if(i == 0) cx = x;
-      else if(i == 1) cx = x + int(boardSize/3);
-      else if(i == 2) cx = x + int(2*boardSize/3);
-      for (int j = 0; j < 3; j++) {
-        int cy = 0;
-        if(j == 0) cy = y;
-        else if(j == 1) cy = y + int(boardSize/3);
-        else if(j == 2) cy = y + int(2*boardSize/3);
-        board[i][j] = new BoardCell(cx, cy, int(boardSize/3));
-      }
+    int cx = 0;
+    if (i == 0) cx = x;
+    else if (i == 1) cx = x + int(boardSize/3);
+    else if (i == 2) cx = x + int(2*boardSize/3);
+    for (int j = 0; j < 3; j++) {
+      int cy = 0;
+      if (j == 0) cy = y;
+      else if (j == 1) cy = y + int(boardSize/3);
+      else if (j == 2) cy = y + int(2*boardSize/3);
+      board[i][j] = new BoardCell(cx, cy, int(boardSize/3));
     }
+  }
 }
 
 void draw() {
@@ -31,11 +34,31 @@ void draw() {
 }
 
 void drawBoard() {
-  for(int i = 0; i < 3; i++){
-    for(int j =0; j < 3; j++){
+  for (int i = 0; i < 3; i++) {
+    for (int j =0; j < 3; j++) {
       board[i][j].drawBoardCell();
     }
   }
+}
+
+void mousePressed() {
+  int[] returnArray = new int[3]; //TODO make better variable name
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      returnArray = board[i][j].click(mouseX, mouseY, player);
+      player = returnArray[0];
+      setActiveBoardCell(returnArray[1], returnArray[2]);
+    }
+  }
+}
+
+void setActiveBoardCell(int cellX, int cellY) {
+  for(int i = 0; i < 3; i++){
+    for(int j = 0; j < 3; j++){
+      board[i][j].setActiveSubCells(false);
+    }
+  }
+  board[cellX][cellY].setActiveSubCells(true);
 }
 
 void drawInfo() {
