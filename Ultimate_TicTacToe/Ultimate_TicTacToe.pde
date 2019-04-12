@@ -4,7 +4,8 @@ int player;
 void setup() {
   strokeWeight(10);
   ellipseMode(CORNER);
-  fullScreen();
+ // fullScreen();
+  size(700, 700);
   board = new BoardCell[3][3];
   player = 0;
   int boardSize = int(height*7/9);
@@ -42,19 +43,24 @@ void drawBoard() {
 }
 
 void mousePressed() {
-  int[] returnArray = new int[3]; //TODO make better variable name
+
+  ArrayList<Integer> returnArray = new ArrayList<Integer>(); //TODO make better variable name
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       returnArray = board[i][j].click(mouseX, mouseY, player);
-      player = returnArray[0];
-      setActiveBoardCell(returnArray[1], returnArray[2]);
+      player = returnArray.get(0);
+      //println("Current Player: " + player);
+      //println("Size: "+returnArray.size());
+      if (returnArray.size() > 1) {
+        setActiveBoardCell(returnArray.get(1), returnArray.get(2));
+      }
     }
   }
 }
 
 void setActiveBoardCell(int cellX, int cellY) {
-  for(int i = 0; i < 3; i++){
-    for(int j = 0; j < 3; j++){
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
       board[i][j].setActiveSubCells(false);
     }
   }

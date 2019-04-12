@@ -1,4 +1,4 @@
-class BoardCell {
+class BoardCell { //<>//
   Cell mainCell; 
   Cell[][] subCells;
 
@@ -83,37 +83,66 @@ class BoardCell {
     }
   }
 
-  int[] click(int mx, int my, int player) {
-    int[] returnArray = new int[3];
-    returnArray[0] = player;
-    if (mx >= this.x && mx < this.x+this.size && my > this.y && my < this.y+this.size) {
-      if (player == 0 && this.state == 0 && isActive) {
-        println(player);
+  //ArrayList<Integer> click(int mx, int my, int player) {
+  //  ArrayList<Integer> returnArray = new ArrayList<Integer>();
+  //  returnArray.add(player);
+  //  if (mx >= this.x && mx < this.x+this.size && my > this.y && my < this.y+this.size) {
+  //    if (player == 0 && this.state == 0 && isActive) {
+  //      for (int i = 0; i < 3; i++) {
+  //        for (int j = 0; j < 3; j++) {
+  //          if (this.subCells[i][j].getIsActive()) {
+  //            println("\nHERE");
+  //            println(this.subCells[i][j].getIsActive());
+  //            this.subCells[i][j].click(mx, my, player);
+  //            if (this.subCells[i][j].getState() != 0) {
+  //              println("i: " + i + ", j: " + j);
+  //              returnArray.add(i);
+  //              returnArray.add(j);
+  //            }
+  //          }
+  //        }
+  //      }
+  //      returnArray.set(0, 1);
+  //    } else if (player == 1 && this.state == 0 && isActive) {
+  //      for (int i = 0; i < 3; i++) {
+  //        for (int j = 0; j < 3; j++) {
+  //          if (this.subCells[i][j].getIsActive()) {
+  //            this.subCells[i][j].click(mx, my, player);
+  //            if (this.subCells[i][j].getState() != 0) {
+  //              println("i: " + i + ", j: " + j);
+  //              returnArray.add(i);
+  //              returnArray.add(j);
+  //            }
+  //          }
+  //        }
+  //      }
+  //      returnArray.set(0, 0);
+  //    } else {
+  //      returnArray.set(0, player);
+  //    }
+  //  }
+  //  //println(returnArray.toString());
+  //  return returnArray;
+  //}
+
+  ArrayList<Integer> click(int mx, int my, int player) {
+    ArrayList<Integer> returnArray = new ArrayList<Integer>();
+    returnArray.add(player);
+    if (this.isActive) {
+      if (mx >= this.x && mx < this.x+this.size && my > this.y && my < this.y+this.size) {
         for (int i = 0; i < 3; i++) {
           for (int j = 0; j < 3; j++) {
-            this.subCells[i][j].click(mx, my, player);
-            if (this.subCells[i][j].getState() != 0) {
-              println("i: " + i + ", j: " + j);
-              returnArray[1] = i;
-              returnArray[2] = j;
+            if (this.subCells[i][j].getIsActive()) {
+              returnArray.set(0, this.subCells[i][j].click(mx, my, player));
+              if(returnArray.get(0) != player){
+                returnArray.add(i);
+                returnArray.add(j);
+                println(returnArray.toString() + "\n");
+                return returnArray;
+              }
             }
           }
         }
-        returnArray[0] = 1;
-        ;
-      } else if (player == 1 && this.state == 0 && isActive) {
-        println(player);
-        for (int i = 0; i < 3; i++) {
-          for (int j = 0; j < 3; j++) {
-            this.subCells[i][j].click(mx, my, player);
-            if (this.subCells[i][j].getState() != 0) {
-              println("i: " + i + ", j: " + j);
-              returnArray[1] = i;
-              returnArray[2] = j;
-            }
-          }
-        }
-        returnArray[0] = 0;
       }
     }
     return returnArray;
