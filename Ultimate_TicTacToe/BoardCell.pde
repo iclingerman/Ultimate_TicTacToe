@@ -66,6 +66,12 @@ class BoardCell { //<>//
 
   //Member Functions
   void drawBoardCell() {
+    //pushMatrix();
+    if (this.isActive) {
+      fill(211);
+    }else{
+      fill(255);
+    }
     this.mainCell.drawCell();
     if (this.state == 0) {
       for (int i = 0; i < 3; i++) {
@@ -81,49 +87,8 @@ class BoardCell { //<>//
       line(this.x, this.y, this.x+this.size, this.y+this.size);
       line(this.x+this.size, this.y, this.x, this.y+this.size);
     }
+    //popMatrix();
   }
-
-  //ArrayList<Integer> click(int mx, int my, int player) {
-  //  ArrayList<Integer> returnArray = new ArrayList<Integer>();
-  //  returnArray.add(player);
-  //  if (mx >= this.x && mx < this.x+this.size && my > this.y && my < this.y+this.size) {
-  //    if (player == 0 && this.state == 0 && isActive) {
-  //      for (int i = 0; i < 3; i++) {
-  //        for (int j = 0; j < 3; j++) {
-  //          if (this.subCells[i][j].getIsActive()) {
-  //            println("\nHERE");
-  //            println(this.subCells[i][j].getIsActive());
-  //            this.subCells[i][j].click(mx, my, player);
-  //            if (this.subCells[i][j].getState() != 0) {
-  //              println("i: " + i + ", j: " + j);
-  //              returnArray.add(i);
-  //              returnArray.add(j);
-  //            }
-  //          }
-  //        }
-  //      }
-  //      returnArray.set(0, 1);
-  //    } else if (player == 1 && this.state == 0 && isActive) {
-  //      for (int i = 0; i < 3; i++) {
-  //        for (int j = 0; j < 3; j++) {
-  //          if (this.subCells[i][j].getIsActive()) {
-  //            this.subCells[i][j].click(mx, my, player);
-  //            if (this.subCells[i][j].getState() != 0) {
-  //              println("i: " + i + ", j: " + j);
-  //              returnArray.add(i);
-  //              returnArray.add(j);
-  //            }
-  //          }
-  //        }
-  //      }
-  //      returnArray.set(0, 0);
-  //    } else {
-  //      returnArray.set(0, player);
-  //    }
-  //  }
-  //  //println(returnArray.toString());
-  //  return returnArray;
-  //}
 
   ArrayList<Integer> click(int mx, int my, int player) {
     ArrayList<Integer> returnArray = new ArrayList<Integer>();
@@ -134,7 +99,7 @@ class BoardCell { //<>//
           for (int j = 0; j < 3; j++) {
             if (this.subCells[i][j].getIsActive()) {
               returnArray.set(0, this.subCells[i][j].click(mx, my, player));
-              if(returnArray.get(0) != player){
+              if (returnArray.get(0) != player) {
                 returnArray.add(i);
                 returnArray.add(j);
                 println(returnArray.toString() + "\n");
@@ -151,8 +116,40 @@ class BoardCell { //<>//
   void setActiveSubCells(boolean isActive) {
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
-        this.subCells[i][j].setIsActive(isActive);
+          this.subCells[i][j].setIsActive(isActive);
       }
+    }
+  }
+
+  void checkSubCells() {
+    int j = 0; 
+    for (int i = 0; i < 3; i++) {
+      if (this.subCells[i][j].getState() == 1 && this.subCells[i][j+1].getState() == 1 && this.subCells[i][j+2].getState() == 1) { //Horizontal O victory
+        this.state = 1;
+        this.isActive = false;
+      } else if (this.subCells[j][i].getState() == 1 && this.subCells[j+1][i].getState() == 1 && this.subCells[j+2][i].getState() == 1) { //Vertical O victory
+        this.state = 1;
+        this.isActive = false;
+      } else if (this.subCells[i][j].getState() == 2 && this.subCells[i][j+1].getState() == 2 && this.subCells[i][j+2].getState() == 2) { //Horizontal X victory
+        this.state = 0;
+        this.isActive = false;
+      } else if (this.subCells[j][i].getState() == 2 && this.subCells[j+1][i].getState() == 2 && this.subCells[j+2][i].getState() == 2) { //Vertical X victory
+        this.state = 0;
+        this.isActive = false;
+      }
+    }
+    if (this.subCells[j][j].getState() == 1 && this.subCells[j+1][j+1].getState() == 1 && this.subCells[j+2][j+2].getState() == 1) {//diagonal O victory
+      this.state = 1;
+      this.isActive = false;
+    } else if (this.subCells[j+2][j].getState() == 1 && this.subCells[j+1][j+1].getState() == 1 && this.subCells[j][j+2].getState() == 1) {//diagonal O victory
+      this.state = 1;
+      this.isActive = false;
+    } else if (this.subCells[j][j].getState() == 2 && this.subCells[j+1][j+1].getState() == 2 && this.subCells[j+2][j+2].getState() == 2) {//diagonal X victory
+      this.state = 0;
+      this.isActive = false;
+    } else if (this.subCells[j+2][j].getState() == 2 && this.subCells[j+1][j+1].getState() == 2 && this.subCells[j][j+2].getState() == 2) {//diagonal X victory
+      this.state = 0;
+      this.isActive = false;
     }
   }
 }

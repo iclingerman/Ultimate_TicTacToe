@@ -4,7 +4,7 @@ int player;
 void setup() {
   strokeWeight(10);
   ellipseMode(CORNER);
- // fullScreen();
+  // fullScreen();
   size(700, 700);
   board = new BoardCell[3][3];
   player = 0;
@@ -32,6 +32,7 @@ void draw() {
   background(110, 158, 203);
   drawInfo();
   drawBoard();
+  checkSubBoards();
 }
 
 void drawBoard() {
@@ -59,12 +60,29 @@ void mousePressed() {
 }
 
 void setActiveBoardCell(int cellX, int cellY) {
+  if (board[cellX][cellY].getState() == 0) {
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        board[i][j].setActiveSubCells(false);
+      }
+    }
+    board[cellX][cellY].setActiveSubCells(true);
+  } else {
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        board[i][j].setActiveSubCells(true);
+      }
+    }
+    board[cellX][cellY].setActiveSubCells(false);    
+  }
+}
+
+void checkSubBoards() {
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      board[i][j].setActiveSubCells(false);
+      board[i][j].checkSubCells();
     }
   }
-  board[cellX][cellY].setActiveSubCells(true);
 }
 
 void drawInfo() {
