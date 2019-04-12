@@ -34,7 +34,6 @@ void draw() {
   background(255);
   drawInfo();
   drawBoard();
-  checkSubBoards();
   checkGame();
   if(victory > 0){
     for(int i = 0; i < 3; i++){
@@ -64,6 +63,7 @@ void mousePressed() {
       //println("Current Player: " + player);
       //println("Size: "+returnArray.size());
       if (returnArray.size() > 1) {
+        checkSubBoards();
         setActiveBoardCell(returnArray.get(1), returnArray.get(2));
       }
     }
@@ -72,6 +72,7 @@ void mousePressed() {
 
 void setActiveBoardCell(int cellX, int cellY) {
   if (board[cellX][cellY].getState() == 0) {
+    println("Setting whole board to false");
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
         board[i][j].setActiveSubCells(false);
@@ -79,6 +80,7 @@ void setActiveBoardCell(int cellX, int cellY) {
     }
     board[cellX][cellY].setActiveSubCells(true);
   } else {
+    println("settings whole board to true");
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
         board[i][j].setActiveSubCells(true);
