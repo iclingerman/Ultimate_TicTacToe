@@ -2,7 +2,7 @@ class Cell {
   int x;
   int y;
   int size;
-  int state; //0 = empty, 1 = O, 2 = X
+  int state; //0 = empty, 1 = red, 2 = blue
   boolean isActive;
 
   Cell(int x, int y, int size) {
@@ -49,15 +49,19 @@ class Cell {
     }else{
       fill(255);
     }
-    rect(this.x, this.y, this.size, this.size);
+    
     if (this.state == 1) {
-      ellipseMode(CORNER);
-      ellipse(this.x, this.y, this.size, this.size);
+      //ellipseMode(CORNER);
+      //ellipse(this.x, this.y, this.size, this.size);'
+      fill(255, 0, 0);
     } else if (this.state == 2) {
-      line(this.x, this.y, this.x+this.size, this.y+this.size);
-      line(this.x+this.size, this.y, this.x, this.y+this.size);
+      //line(this.x, this.y, this.x+this.size, this.y+this.size);
+      //line(this.x+this.size, this.y, this.x, this.y+this.size);
+      fill(0, 0, 255);
     }
+    rect(this.x, this.y, this.size, this.size);
     popMatrix();
+    fill(255);
   }
   int click(int mx, int my, int player) {
     if (this.isActive) {

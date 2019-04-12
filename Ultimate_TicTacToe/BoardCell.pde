@@ -5,7 +5,7 @@ class BoardCell { //<>//
   int x;
   int y; 
   int size;
-  int state; // 0 = subBoard printed, 1 = O, 2 = X
+  int state; // 0 = subBoard printed, 1 = red, 2 = blue
   boolean isActive;
 
   BoardCell(int x, int y, int size) {
@@ -66,7 +66,7 @@ class BoardCell { //<>//
 
   //Member Functions
   void drawBoardCell() {
-    //pushMatrix();
+    pushMatrix();
     if (this.isActive) {
       fill(211);
     }else{
@@ -77,17 +77,22 @@ class BoardCell { //<>//
       for (int i = 0; i < 3; i++) {
         for (int j =0; j < 3; j++) {
           strokeWeight(3);
-          subCells[i][j].drawCell();
+            subCells[i][j].drawCell();
           strokeWeight(10);
         }
       }
     } else if (this.state == 1) {
-      ellipse(this.x, this.y, this.size, this.size);
+      //ellipse(this.x, this.y, this.size, this.size);
+      fill(255, 0, 0);
+      rect(this.x, this.y, this.size, this.size);
     } else if (this.state == 2) {
-      line(this.x, this.y, this.x+this.size, this.y+this.size);
-      line(this.x+this.size, this.y, this.x, this.y+this.size);
+      //line(this.x, this.y, this.x+this.size, this.y+this.size);
+      //line(this.x+this.size, this.y, this.x, this.y+this.size);
+      fill(0, 0, 255);
+      rect(this.x, this.y, this.size, this.size);
     }
-    //popMatrix();
+    
+    popMatrix();
   }
 
   ArrayList<Integer> click(int mx, int my, int player) {
@@ -131,10 +136,10 @@ class BoardCell { //<>//
         this.state = 1;
         this.isActive = false;
       } else if (this.subCells[i][j].getState() == 2 && this.subCells[i][j+1].getState() == 2 && this.subCells[i][j+2].getState() == 2) { //Horizontal X victory
-        this.state = 0;
+        this.state = 2;
         this.isActive = false;
       } else if (this.subCells[j][i].getState() == 2 && this.subCells[j+1][i].getState() == 2 && this.subCells[j+2][i].getState() == 2) { //Vertical X victory
-        this.state = 0;
+        this.state = 2;
         this.isActive = false;
       }
     }
@@ -145,10 +150,10 @@ class BoardCell { //<>//
       this.state = 1;
       this.isActive = false;
     } else if (this.subCells[j][j].getState() == 2 && this.subCells[j+1][j+1].getState() == 2 && this.subCells[j+2][j+2].getState() == 2) {//diagonal X victory
-      this.state = 0;
+      this.state = 2;
       this.isActive = false;
     } else if (this.subCells[j+2][j].getState() == 2 && this.subCells[j+1][j+1].getState() == 2 && this.subCells[j][j+2].getState() == 2) {//diagonal X victory
-      this.state = 0;
+      this.state = 2;
       this.isActive = false;
     }
   }

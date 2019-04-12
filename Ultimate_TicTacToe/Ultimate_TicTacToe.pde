@@ -1,5 +1,6 @@
 BoardCell[][] board;
 int player;
+int victory; //0 = game in progess, 1 = red victory, 2 = blue victory
 
 void setup() {
   strokeWeight(10);
@@ -29,10 +30,20 @@ void setup() {
 
 void draw() {
   clear();
-  background(110, 158, 203);
+  //background(110, 158, 203);
+  background(255);
   drawInfo();
   drawBoard();
   checkSubBoards();
+  checkGame();
+  if(victory > 0){
+    for(int i = 0; i < 3; i++){
+      for(int j = 0; j < 3; j++){
+        board[i][j].setActiveSubCells(false);
+      }
+    }
+    println("GAME OVER: "+ victory);
+  }
 }
 
 void drawBoard() {
@@ -82,6 +93,30 @@ void checkSubBoards() {
     for (int j = 0; j < 3; j++) {
       board[i][j].checkSubCells();
     }
+  }
+}
+
+void checkGame(){
+  int j = 0; 
+  for(int i = 0; i < 3; i++){
+    if(board[i][j].getState() == 1 && board[i][j+1].getState() == 1 && board[i][j+2].getState() == 1){ //Horizontal Red victory
+      victory = 1; 
+    }else if(board[j][i].getState() == 1 && board[j+1][i].getState() == 1 && board[j+2][i].getState() == 1){ //Vertical Red victory
+      victory = 1; 
+    }else if(board[i][j].getState() == 2 && board[i][j+1].getState() == 2 && board[i][j+2].getState() == 2){ //Horizontal Blue victory
+      victory = 2; 
+    }else if(board[j][i].getState() == 2 && board[j+1][i].getState() == 2 && board[j+2][i].getState() == 2){ //Vertical Blue victory
+      victory = 2; 
+    }
+  }
+  if(board[j][j].getState() == 1 && board[j+1][j+1].getState() == 1 && board[j+2][j+2].getState() == 1){//diagonal Red victory
+    victory = 1;
+  }else if(board[j+2][j].getState() == 1 && board[j+1][j+1].getState() == 1 && board[j][j+2].getState() == 1){//diagonal Red victory
+    victory = 1;
+  }else if(board[j][j].getState() == 2 && board[j+1][j+1].getState() == 2 && board[j+2][j+2].getState() == 2){//diagonal Blue victory
+      victory = 2; 
+  }else if(board[j+2][j].getState() == 2 && board[j+1][j+1].getState() == 2 && board[j][j+2].getState() == 2){//diagonal Blue victory
+    victory = 2; 
   }
 }
 
