@@ -45,18 +45,14 @@ class Cell {
   void drawCell() {
     pushMatrix();
     if (this.isActive) {
-      fill(211);
+      fill(180);
     }else{
       fill(255);
     }
     
     if (this.state == 1) {
-      //ellipseMode(CORNER);
-      //ellipse(this.x, this.y, this.size, this.size);'
       fill(255, 0, 0);
     } else if (this.state == 2) {
-      //line(this.x, this.y, this.x+this.size, this.y+this.size);
-      //line(this.x+this.size, this.y, this.x, this.y+this.size);
       fill(0, 0, 255);
     }
     rect(this.x, this.y, this.size, this.size);
