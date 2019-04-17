@@ -4,8 +4,8 @@ int victory; //0 = game in progess, 1 = red victory, 2 = blue victory, -1 = stal
 
 void setup() {
   strokeWeight(10);
-  //fullScreen();
-  size(700, 700);
+  fullScreen();
+  //size(700, 700);
   board = new BoardCell[3][3];
   player = 0;
   int boardSize = int(height*7/9);
@@ -32,6 +32,7 @@ void draw() {
   drawInfo();
   drawUserInterface();
   drawBoard();
+  isMouseOver(mouseX, mouseY);
   checkGame();
   if (victory > 0) {
     for (int i = 0; i < 3; i++) {
@@ -47,6 +48,14 @@ void drawBoard() {
   for (int i = 0; i < 3; i++) {
     for (int j =0; j < 3; j++) {
       board[i][j].drawBoardCell();
+    }
+  }
+}
+
+void isMouseOver(int mx, int my) {
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      board[i][j].isMouseOver(mx, my);
     }
   }
 }
@@ -159,8 +168,8 @@ void drawUserInterface() {
 
 void restartGame() {
   victory = 0;
-  for(int i = 0; i < 3; i++){
-    for(int j = 0; j < 3; j++){
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
       board[i][j].clear();
     }
   }

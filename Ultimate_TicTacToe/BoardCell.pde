@@ -8,6 +8,8 @@ class BoardCell { //<>//
   int state; // 0 = subBoard printed, 1 = red, 2 = blue, 3 = board full/stalemate
   boolean isActive;
 
+  boolean mouseOver;
+
   BoardCell(int x, int y, int size) {
     mainCell = new Cell(x, y, size);
     subCells = new Cell[3][3];
@@ -30,6 +32,7 @@ class BoardCell { //<>//
     this.state = 0;
     this.isActive = true;
   }
+
   //Getters
   int getX() {
     return this.x;
@@ -45,6 +48,9 @@ class BoardCell { //<>//
   }
   boolean getIsActive() {
     return this.isActive;
+  }
+  boolean getMouseOver() {
+    return this.mouseOver;
   }
 
   //Setters
@@ -62,6 +68,9 @@ class BoardCell { //<>//
   }
   void setIsActive(boolean isActive) {
     this.isActive = isActive;
+  }
+  void setMouseOver(boolean mouseOver) {
+    this.mouseOver = mouseOver;
   }
 
   //Member Functions
@@ -163,14 +172,31 @@ class BoardCell { //<>//
       this.state = 4;
     }
   }
-  
-  void clear(){
+
+  void clear() {
     this.isActive = true;
     this.state = 0;
-    for(int i = 0; i < 3; i++){
-      for(int j = 0; j < 3; j++){
-        this.subCells[i][j].setIsActive(true);
-        this.subCells[i][j].setState(0);
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        this.subCells[i][j].clear();
+      }
+    }
+  }
+
+  void isMouseOver(int mx, int my) {
+    if (this.isActive) {
+      if (mouseX >= this.x && mouseX < this.x+this.size && mouseY > this.y && mouseY < this.y+this.size) {
+        for (int i = 0; i < 3; i++) {
+          for (int j = 0; j < 3; j++) {
+            this.subCells[i][j].isMouseOver(mx, my);
+          }
+        }
+      }else{
+        for (int i = 0; i < 3; i++) {
+          for (int j = 0; j < 3; j++) {
+            this.subCells[i][j].setMouseOver(false);
+          }
+        }        
       }
     }
   }

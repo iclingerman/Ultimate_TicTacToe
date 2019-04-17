@@ -5,12 +5,15 @@ class Cell {
   int state; //0 = empty, 1 = red, 2 = blue
   boolean isActive;
 
+  boolean mouseOver;
+
   Cell(int x, int y, int size) {
     this.x = x;
     this.y = y;
     this.size = size;
     this.state = 0; 
     this.isActive = true;
+    this.mouseOver = false;
   }
   //Getters
   int getX() {
@@ -28,7 +31,13 @@ class Cell {
   boolean getIsActive() {
     return this.isActive;
   }
+  boolean getMouseOver() {
+    return this.mouseOver;
+  }
 
+  void setMouseOver(boolean mouseOver) {
+    this.mouseOver = mouseOver;
+  }
 
   void setIsActive(boolean isActive) {
     this.isActive = isActive;
@@ -37,6 +46,7 @@ class Cell {
     this.state = state;
   }   
   void clear() {
+    this.isActive = true;
     this.state = 0;
   }
   String toString() {
@@ -44,12 +54,14 @@ class Cell {
   }
   void drawCell() {
     pushMatrix();
-    if (this.isActive) {
-      fill(180);
-    }else{
+    if (this.isActive && this.mouseOver) {
+      fill(255);
+    } else if (this.isActive && !this.mouseOver){
+      fill(160);
+    }else {
       fill(255);
     }
-    
+
     if (this.state == 1) {
       fill(255, 0, 0);
     } else if (this.state == 2) {
@@ -74,5 +86,13 @@ class Cell {
       }
     }
     return player;
+  }
+
+  void isMouseOver(int mx, int my) {
+    if (mouseX >= this.x && mouseX < this.x+this.size && mouseY > this.y && mouseY < this.y+this.size) {
+      this.mouseOver = true;
+    }else{
+      this.mouseOver = false;
+    }
   }
 }
