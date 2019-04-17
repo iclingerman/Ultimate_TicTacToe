@@ -1,11 +1,11 @@
 BoardCell[][] board;
 int player;
-int victory; //0 = game in progess, 1 = red victory, 2 = blue victory
+int victory; //0 = game in progess, 1 = red victory, 2 = blue victory, -1 = stalemate
 
 void setup() {
   strokeWeight(10);
-  fullScreen();
-  //size(700, 700);
+  //fullScreen();
+  size(700, 700);
   board = new BoardCell[3][3];
   player = 0;
   int boardSize = int(height*7/9);
@@ -39,7 +39,7 @@ void draw() {
         board[i][j].setActiveSubCells(false);
       }
     }
-    println("GAME OVER: "+ victory);
+    //println("GAME OVER: "+ victory);
   }
 }
 
@@ -118,6 +118,13 @@ void checkGame() {
   } else if (board[j+2][j].getState() == 2 && board[j+1][j+1].getState() == 2 && board[j][j+2].getState() == 2) {//diagonal Blue victory
     victory = 2;
   }
+  if (victory == 0) {
+    if (board[j][j].getState() != 0 && board[j][j+1].getState() != 0 && board[j][j+2].getState() != 0 
+      && board[j+1][j].getState() != 0 && board[j+1][j+1].getState() != 0 && board[j+1][j+2].getState() != 0 
+      && board[j+2][j].getState() != 0 && board[j+2][j+1].getState() != 0 && board[j+2][j+2].getState() != 0) {
+      victory = -1;
+    }
+  }
 }
 
 void drawUserInterface() {
@@ -135,15 +142,29 @@ void drawUserInterface() {
       playerName = "error";
     }
     text(playerName + "'s Turn", width/9, height/10);
-  }else if(victory == 1){
-    text("Red Victory", width/9, height/10);
-  }else if(victory == 2){
-    text("Blue Victory", width/9, height/10);
+  } else {
+    if (victory == 1) {
+      text("Red Victory. Press Enter to restart", width/9, height/10);
+    } else if (victory == 2) {
+      text("Blue Victory. Press Enter to restart", width/9, height/10);
+    } else if (victory == -1) {
+      text("Stalemate. Press Enter to restart", width/9, height/10);
+    }
+    if (keyPressed && key == ENTER) {
+      restartGame();
+    }
   }
   popMatrix();
 }
 
-
+void restartGame() {
+  victory = 0;
+  for(int i = 0; i < 3; i++){
+    for(int j = 0; j < 3; j++){
+      board[i][j].clear();
+    }
+  }
+}
 void drawInfo() {
   pushMatrix();
   textAlign(LEFT);

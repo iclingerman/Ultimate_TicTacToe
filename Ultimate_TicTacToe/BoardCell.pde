@@ -157,12 +157,20 @@ class BoardCell { //<>//
       this.isActive = false;
     }
 
-    if (this.subCells[j][j].getState() != 0 && this.subCells[j][j+1].getState() != 0 && this.subCells[j][j+2].getState() != 0) {
-      if (this.subCells[j+1][j].getState() != 0 && this.subCells[j+1][j+1].getState() != 0 && this.subCells[j+1][j+2].getState() != 0) {
-        if (this.subCells[j+2][j].getState() != 0 && this.subCells[j+2][j+1].getState() != 0 && this.subCells[j+2][j+2].getState() != 0) {
-          this.state = 4;
-          
-        }
+    if (this.subCells[j][j].getState() != 0 && this.subCells[j][j+1].getState() != 0 && this.subCells[j][j+2].getState() != 0 
+      && this.subCells[j+1][j].getState() != 0 && this.subCells[j+1][j+1].getState() != 0 && this.subCells[j+1][j+2].getState() != 0 
+      && this.subCells[j+2][j].getState() != 0 && this.subCells[j+2][j+1].getState() != 0 && this.subCells[j+2][j+2].getState() != 0) {
+      this.state = 4;
+    }
+  }
+  
+  void clear(){
+    this.isActive = true;
+    this.state = 0;
+    for(int i = 0; i < 3; i++){
+      for(int j = 0; j < 3; j++){
+        this.subCells[i][j].setIsActive(true);
+        this.subCells[i][j].setState(0);
       }
     }
   }
