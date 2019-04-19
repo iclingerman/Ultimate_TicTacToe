@@ -1,6 +1,7 @@
 BoardCell[][] board;
 int player;
 int victory; //0 = game in progess, 1 = red victory, 2 = blue victory, -1 = stalemate
+boolean playing;
 
 void setup() {
   strokeWeight(10);
@@ -8,6 +9,7 @@ void setup() {
   //size(700, 700);
   board = new BoardCell[3][3];
   player = 0;
+  playing = false;
   int boardSize = int(height*7/9);
   int x = width/9;
   int y = height/9;
@@ -24,12 +26,37 @@ void setup() {
       board[i][j] = new BoardCell(cx, cy, int(boardSize/3));
     }
   }
+  //printArray(PFont.list());
 }
 
 void draw() {
   clear();
-  background(255);
+  //background(255);
+  background(3, 192, 60);
   drawInfo();
+  if (!playing) { 
+    drawIntroScreen();
+  } else { 
+    playGame();
+  }
+}
+
+
+void drawIntroScreen() {
+  pushMatrix();
+  textAlign(CENTER);
+  PFont title = createFont("Segoe UI", 100, true);
+  textFont(title);
+  textSize(100);
+  text("Ultimate TicTacToe", width/2, height/2);
+  textSize(50);
+  text("Created by Ian Clingerman", width/2, (height/2)+50);
+  textSize(25);
+  text("Click to Play", width/2, (height/2) + 80);
+  popMatrix();
+}
+
+void playGame() {
   drawUserInterface();
   drawBoard();
   isMouseOver(mouseX, mouseY);
@@ -40,9 +67,10 @@ void draw() {
         board[i][j].setActiveSubCells(false);
       }
     }
-    //println("GAME OVER: "+ victory);
   }
 }
+
+
 
 void drawBoard() {
   for (int i = 0; i < 3; i++) {
@@ -61,19 +89,22 @@ void isMouseOver(int mx, int my) {
 }
 
 void mousePressed() {
-
-  ArrayList<Integer> returnArray = new ArrayList<Integer>(); //TODO make better variable name
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
-      returnArray = board[i][j].click(mouseX, mouseY, player);
-      player = returnArray.get(0);
-      //println("Current Player: " + player);
-      //println("Size: "+returnArray.size());
-      if (returnArray.size() > 1) {
-        checkSubBoards();
-        setActiveBoardCell(returnArray.get(1), returnArray.get(2));
+  if (playing) {
+    ArrayList<Integer> returnArray = new ArrayList<Integer>(); //TODO make better variable name
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        returnArray = board[i][j].click(mouseX, mouseY, player);
+        player = returnArray.get(0);
+        //println("Current Player: " + player);
+        //println("Size: "+returnArray.size());
+        if (returnArray.size() > 1) {
+          checkSubBoards();
+          setActiveBoardCell(returnArray.get(1), returnArray.get(2));
+        }
       }
     }
+  } else {
+    playing = true;
   }
 }
 
@@ -153,11 +184,11 @@ void drawUserInterface() {
     text(playerName + "'s Turn", width/9, height/10);
   } else {
     if (victory == 1) {
-      text("Red Victory. Press Enter to restart", width/9, height/10);
+      text("Red Victory. Press Enter to Restart", width/9, height/10);
     } else if (victory == 2) {
-      text("Blue Victory. Press Enter to restart", width/9, height/10);
+      text("Blue Victory. Press Enter to Restart", width/9, height/10);
     } else if (victory == -1) {
-      text("Stalemate. Press Enter to restart", width/9, height/10);
+      text("Stalemate. Press Enter to Restart", width/9, height/10);
     }
     if (keyPressed && key == ENTER) {
       restartGame();
