@@ -99,7 +99,7 @@ void mousePressed() {
         //println("Size: "+returnArray.size());
         if (returnArray.size() > 1) {
           checkSubBoards();
-          setActiveBoardCell(returnArray.get(1), returnArray.get(2));
+          //setActiveBoardCell(returnArray.get(1), returnArray.get(2));
         }
       }
     }
