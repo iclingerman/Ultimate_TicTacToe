@@ -1,4 +1,5 @@
 BoardCell[][] board;
+GameBot opponent;
 int player;
 int victory; //0 = game in progess, 1 = red victory, 2 = blue victory, -1 = stalemate
 boolean playing;
@@ -8,6 +9,7 @@ void setup() {
   //fullScreen();
   size(800, 800);
   board = new BoardCell[3][3];
+  opponent = new GameBot();
   player = 0;
   playing = false;
   int boardSize = int(height*7/9);
@@ -90,15 +92,20 @@ void isMouseOver(int mx, int my) {
 
 void mousePressed() {
   if (playing) {
-    ArrayList<Integer> returnArray = new ArrayList<Integer>(); //TODO make better variable name
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
-        returnArray = board[i][j].click(mouseX, mouseY, player);
-        player = returnArray.get(0);
-        if (returnArray.size() > 1) {
-          checkSubBoards();
-          setActiveBoardCell(returnArray.get(1), returnArray.get(2));
+    if (player == 0) {
+      ArrayList<Integer> returnArray = new ArrayList<Integer>(); //TODO make better variable name
+      for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+          returnArray = board[i][j].click(mouseX, mouseY, player);
+          player = returnArray.get(0);
+          if (returnArray.size() > 1) {
+            checkSubBoards();
+            setActiveBoardCell(returnArray.get(1), returnArray.get(2));
+          }
         }
+      }
+      if(player == 1){
+        botTurn();
       }
     }
   } else {
@@ -123,6 +130,22 @@ void setActiveBoardCell(int cellX, int cellY) {
     board[cellX][cellY].setActiveSubCells(false);
   }
 }
+
+void botTurn() {
+  ArrayList<Integer> returnArray = opponent.moveRandom();  
+  player = returnArray.get(0);
+  for(int i = 0; i < 3; i++){
+    for(int j = 0; j < 3; j++){
+      if(board[i][j].getIsActive()){
+        board[i][j].setSubCellState(returnArray.get(1), returnArray.get(2), 2);
+      }
+    }
+  }
+  
+  setActiveBoardCell(returnArray.get(1), returnArray.get(2));
+}
+
+
 
 void checkSubBoards() {
   for (int i = 0; i < 3; i++) {
@@ -180,6 +203,7 @@ void drawUserInterface() {
     }
     text(playerName + "'s Turn", width/9, height/10);
   } else {
+    fill(0);
     if (victory == 1) {
       text("Red Victory. Press Enter to Restart", width/9, height/10);
     } else if (victory == 2) {

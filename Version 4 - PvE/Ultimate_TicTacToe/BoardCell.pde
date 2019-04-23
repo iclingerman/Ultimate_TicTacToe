@@ -72,6 +72,12 @@ class BoardCell { //<>//
   void setMouseOver(boolean mouseOver) {
     this.mouseOver = mouseOver;
   }
+  
+  void setSubCellState(int cellX, int cellY, int state){
+    if(this.subCells[cellX][cellY].getState() == 0){
+      this.subCells[cellX][cellY].setState(state);
+    }
+  }
 
   //Member Functions
   void drawBoardCell() {
@@ -132,6 +138,7 @@ class BoardCell { //<>//
         this.subCells[i][j].setIsActive(isActive);
       }
     }
+    this.isActive = isActive;
   }
 
   void checkSubCells() {
