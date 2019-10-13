@@ -104,7 +104,7 @@ void mousePressed() {
           }
         }
       }
-      if(player == 1){
+      if (player == 1) {
         botTurn();
       }
     }
@@ -132,19 +132,36 @@ void setActiveBoardCell(int cellX, int cellY) {
 }
 
 void botTurn() {
+  int x, y;
   ArrayList<Integer> returnArray = opponent.moveRandom();  
   player = returnArray.get(0);
-  for(int i = 0; i < 3; i++){
-    for(int j = 0; j < 3; j++){
-      if(board[i][j].getIsActive()){
-        board[i][j].setSubCellState(returnArray.get(1), returnArray.get(2), 2);
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      if (board[i][j].getIsActive()) {
+        //This solution of searching for another active board by rechecking next board might not be the fastest, but idk another way to do it
+        for (int k = i; k < 3; k++) {
+          for (int l = 0; l < 3; l++) {
+            if (board[k][l].getIsActive() && k != i && l != j) {
+              x = int(random(0, 3));
+              y = int(random(0, 3));
+              board[x][y].setSubCellState(returnArray.get(1), returnArray.get(2), 2);
+            } else {
+              board[i][j].setSubCellState(returnArray.get(1), returnArray.get(2), 2);
+            }
+          }
+        }
       }
+      //board[i][j].setSubCellState(returnArray.get(1), returnArray.get(2), 2);
     }
   }
-  
-  setActiveBoardCell(returnArray.get(1), returnArray.get(2));
 }
 
+
+int[] botTurnActiveBoard() {
+  int[] pos = new int[2];
+
+  return pos;
+}
 
 
 void checkSubBoards() {

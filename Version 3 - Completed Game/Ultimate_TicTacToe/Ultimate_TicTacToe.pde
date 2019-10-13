@@ -5,8 +5,8 @@ boolean playing;
 
 void setup() {
   strokeWeight(10);
-  //fullScreen();
-  size(800, 800);
+  fullScreen();
+  //size(800, 800);
   board = new BoardCell[3][3];
   player = 0;
   playing = false;

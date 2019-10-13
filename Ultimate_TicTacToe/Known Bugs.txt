@@ -1,7 +1,0 @@
-Known Bugs - Version 3
-
-1. 	When completing a subCell victory that would send the next player to the cell that was just won, 
-	everything is deactivated and no more cells can be clicked. This does not happen if a subCell is completed
-	that would send a player to a large cell that has already been won. When this occurs, all available cells 
-	become activated. Fixed
-
