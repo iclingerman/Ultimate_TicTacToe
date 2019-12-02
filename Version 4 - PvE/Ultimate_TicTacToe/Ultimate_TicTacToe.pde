@@ -101,12 +101,14 @@ void mousePressed() {
           if (returnArray.size() > 1) {
             checkSubBoards();
             setActiveBoardCell(returnArray.get(1), returnArray.get(2));
+            println("END PLAYER TURN");
+            println();
           }
         }
       }
-      if (player == 1) {
-        botTurn();
-      }
+    }
+    if (player == 1) {
+      botTurn();     
     }
   } else {
     playing = true;
@@ -132,28 +134,36 @@ void setActiveBoardCell(int cellX, int cellY) {
 }
 
 void botTurn() {
-  int x, y;
+  println("STARTING BOT'S TURN");
+  boolean botPlayed = false;
   ArrayList<Integer> returnArray = opponent.moveRandom();  
   player = returnArray.get(0);
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 3; i++) { //The bot will play in the first active board 
+    if(botPlayed) break;
     for (int j = 0; j < 3; j++) {
+      if(botPlayed) break;
       if (board[i][j].getIsActive()) {
-        //This solution of searching for another active board by rechecking next board might not be the fastest, but idk another way to do it
-        for (int k = i; k < 3; k++) {
-          for (int l = 0; l < 3; l++) {
-            if (board[k][l].getIsActive() && k != i && l != j) {
-              x = int(random(0, 3));
-              y = int(random(0, 3));
-              board[x][y].setSubCellState(returnArray.get(1), returnArray.get(2), 2);
-            } else {
-              board[i][j].setSubCellState(returnArray.get(1), returnArray.get(2), 2);
-            }
-          }
+        while(board[i][j].getSubCellState(returnArray.get(1), returnArray.get(2)) != 0){
+          println("BOT NEEDS REDO");
+          println(i + "" + j);
+          println();
+          println(returnArray.get(1) + "" + returnArray.get(2));
+          //println(board[i][j].getSubCellState(returnArray.get(1), returnArray.get(2)));
+          returnArray = opponent.moveRandom(); 
+          println("next try");
+          println(returnArray.get(1) + "" + returnArray.get(2));
         }
+        board[i][j].setSubCellState(returnArray.get(1), returnArray.get(2), 2);
+        println("BOT HAS PLAYED");
+        checkSubBoards();
+        setActiveBoardCell(returnArray.get(1), returnArray.get(2)); 
+        botPlayed = true;
+        
       }
-      //board[i][j].setSubCellState(returnArray.get(1), returnArray.get(2), 2);
     }
   }
+  println("BOT HAS ENDED TURN");
+  println();
 }
 
 

@@ -8,8 +8,6 @@ class GameBot{
     returnArray.add(0);
     int i = int(random(0, 3));
     int j = int(random(0, 3));
-    println(i);
-    println(j);
     returnArray.add(i);
     returnArray.add(j);
     return returnArray;

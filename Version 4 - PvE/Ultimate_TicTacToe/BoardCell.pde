@@ -52,6 +52,9 @@ class BoardCell { //<>//
   boolean getMouseOver() {
     return this.mouseOver;
   }
+  int getSubCellState(int cellX, int cellY){
+      return this.subCells[cellX][cellY].getState();  
+  }
 
   //Setters
   void setX(int x) {
